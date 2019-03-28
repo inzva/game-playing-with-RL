@@ -8,7 +8,6 @@ from keras.layers import Dense
 
 class PolicyNetwork:
     def __init__(self, sess, hidden_units, state_size, action_size, BATCH_SIZE, TAU, LEARNING_RATE):
-        print('Policy network, tısss')
         self.sess = sess
 
         self.BATCH_SIZE = BATCH_SIZE
