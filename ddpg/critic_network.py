@@ -16,17 +16,17 @@ class CriticNetwork:
 
         K.set_session(self.sess)
 
-        self._model, self._action, self._state = self.initialize_model(hidden_units, state_size, action_size)
-        self._target_model, self.target_action, self._target_state = self.initialize_model(hidden_units, state_size, action_size)
+        self.model, self.action, self.state = self.initialize_model(hidden_units, state_size, action_size)
+        self.target_model, self.target_action, self._target_state = self.initialize_model(hidden_units, state_size, action_size)
 
-        self._action_grads = tf.gradients(self._model.output, self._action)
+        self.action_grads = tf.gradients(self.model.output, self.action)
 
         self.sess.run(tf.initialize_all_variables())
 
-        self._target_model.set_weights(self._model.get_weights())
+        self.target_model.set_weights(self.model.get_weights())
 
     def gradients(self, states, actions):
-        return self.sess.run(self._action_grads, feed_dict={self._state: states, self._action: actions})[0]
+        return self.sess.run(self.action_grads, feed_dict={self.state: states, self.action: actions})[0]
 
     def initialize_model(self, hidden_units, state_size, action_size):
         S = Input(shape=[state_size])
@@ -51,9 +51,9 @@ class CriticNetwork:
         return model, A, S
 
     def update_target_network(self):
-        critic_network_weights = self._model.get_weights()
-        critic_target_network_weights = self._target_model.get_weights()
+        critic_network_weights = self.model.get_weights()
+        critic_target_network_weights = self.target_model.get_weights()
 
         for i in range(len(critic_network_weights)):
             critic_target_network_weights[i] = self.TAU * critic_target_network_weights[i] + (1 - self.TAU)* critic_target_network_weights[i]
-        self._target_model.set_weights(critic_target_network_weights)
+        self.target_model.set_weights(critic_target_network_weights)
