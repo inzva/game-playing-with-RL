@@ -17,7 +17,7 @@ class CriticNetwork:
         K.set_session(self.sess)
 
         self.model, self.action, self.state = self.initialize_model(hidden_units, state_size, action_size)
-        self.target_model, self.target_action, self._target_state = self.initialize_model(hidden_units, state_size, action_size)
+        self.target_model, self.target_action, self.target_state = self.initialize_model(hidden_units, state_size, action_size)
 
         self.action_grads = tf.gradients(self.model.output, self.action)
 
