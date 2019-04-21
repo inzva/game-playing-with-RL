@@ -207,4 +207,4 @@ if __name__ == '__main__':
     _, _, solved = Learner.run_model(max_epochs=20, n_solved=1, plot_Q=True)
 
     if solved:
-        Learner.agent.save_model()
+        Learner.agent.save_models()

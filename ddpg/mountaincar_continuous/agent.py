@@ -114,9 +114,16 @@ class Agent():
         new_weights = tau * local_weights + (1 - tau) * target_weights
         target_model.set_weights(new_weights)
 
-    def save_model(self):
+    def save_models(self):
         self.actor_local.model.save_weights(self.model_target_dir + 'local_actor_model.h5')
         self.actor_target.model.save_weights(self.model_target_dir + 'target_actor_model.h5')
 
         self.critic_local.model.save_weights(self.model_target_dir + 'local_critic_model.h5')
         self.critic_target.model.save_weights(self.model_target_dir + 'target_critic_model.h5')
+
+    def load_models(self):
+        self.actor_local.model.load_weights(self.model_target_dir + 'local_actor_model.h5')
+        self.actor_target.model.load_weights(self.model_target_dir + 'target_actor_model.h5')
+
+        self.critic_local.model.load_weights(self.model_target_dir + 'local_critic_model.h5')
+        self.critic_target.model.load_weights(self.model_target_dir + 'target_critic_model.h5')
