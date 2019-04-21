@@ -94,7 +94,7 @@ class MountainCar():
 
         plt.subplots_adjust(top=0.92, right=0.95, hspace=0.25, wspace=0.4)
 
-        plt.savefig('mountaincar_continuous/plots/plots.png')
+        plt.savefig('plots/plots.png')
 
     def run_epoch(self, max_steps, render=False, training=True):
         state = self.preprocess_state(self.env.reset())
@@ -104,7 +104,7 @@ class MountainCar():
         steps = 0
         while steps < max_steps:
             steps += 1
-            noisy_action, pure_action = self.agent.act(state)
+            noisy_action, pure_action = self.agent.decide_actions(state)
 
             # use action with OUNoise if training
             action = noisy_action if training else pure_action
@@ -134,8 +134,7 @@ class MountainCar():
 
         return total_reward, done, action_mean, action_std, steps
 
-    def run_model(self, max_epochs=100, n_solved=1, r_solved=90,
-                  max_steps=1000, plot_Q=False, verbose=1):
+    def run_model(self, max_epochs=100, n_solved=1, r_solved=90, max_steps=1000, plot_Q=False, verbose=1):
         """
         Train the learner
 
@@ -155,11 +154,8 @@ class MountainCar():
         test_hist = []
 
         for epoch in range(1, max_epochs+1):
-            train_reward, train_done, train_action_mean, train_action_std, \
-                train_steps = self.run_epoch(max_steps=max_steps)
-            test_reward, test_done, test_action_mean, test_action_std, \
-                test_steps = self.run_epoch(max_steps=max_steps,
-                                            training=False)
+            train_reward, train_done, train_action_mean, train_action_std, train_steps = self.run_epoch(max_steps=max_steps)
+            test_reward, test_done, test_action_mean, test_action_std, test_steps = self.run_epoch(max_steps=max_steps, training=False)
 
             train_hist.append([train_reward, train_steps])
             test_hist.append([test_reward, test_steps])
@@ -183,9 +179,7 @@ class MountainCar():
 
             self.print_epoch(print_vals, verbose)
             if test_running > r_solved and epoch > n_solved:
-                    print('\nSolved! Average of {:4.1f} from episode {:3d}'
-                          ' to {:3d}'.format(test_running, epoch -
-                                             n_solved + 1, epoch))
+                    print('\nSolved! Average of {:4.1f} from episode {:3d}'' to {:3d}'.format(test_running, epoch - n_solved + 1, epoch))
                     solved = epoch
                     break
 
@@ -210,4 +204,7 @@ class MountainCar():
 if __name__ == '__main__':
     print('Running learner directly')
     Learner = MountainCar()
-    Learner.run_model(max_epochs=20, n_solved=1, plot_Q=True)
+    _, _, solved = Learner.run_model(max_epochs=20, n_solved=1, plot_Q=True)
+
+    if solved:
+        Learner.agent.save_model()

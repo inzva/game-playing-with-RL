@@ -6,7 +6,7 @@ from keras import Sequential, Input, Model
 from keras.layers import Dense
 
 
-class PolicyNetwork:
+class ActorNetwork:
     def __init__(self, sess, hidden_units, state_size, action_size, BATCH_SIZE, TAU, LEARNING_RATE):
         self.sess = sess
 

@@ -10,6 +10,8 @@ class Agent():
     """Reinforcement Learning agent that learns using DDPG."""
 
     def __init__(self):
+        self.model_target_dir = './models/'
+
         # self.task = task
         self.state_size = 2
         self.action_size = 1
@@ -17,12 +19,8 @@ class Agent():
         self.action_high = 1
 
         # Actor (Policy) Model
-        self.actor_local = ActorNetwork(
-            self.state_size, self.action_size, self.action_low,
-            self.action_high)
-        self.actor_target = ActorNetwork(
-            self.state_size, self.action_size, self.action_low,
-            self.action_high)
+        self.actor_local = ActorNetwork(self.state_size, self.action_size, self.action_low, self.action_high)
+        self.actor_target = ActorNetwork(self.state_size, self.action_size, self.action_low, self.action_high)
 
         # Critic (Value) Model
         self.critic_local = CriticNetwork(self.state_size, self.action_size)
@@ -64,7 +62,7 @@ class Agent():
         # Roll over last state and action
         self.last_state = next_state
 
-    def act(self, state):
+    def decide_actions(self, state):
         """Returns actions for given state(s) as per current policy."""
         state = np.reshape(state, [-1, self.state_size])
         pure_action = self.actor_local.model.predict(state)[0]
@@ -115,3 +113,10 @@ class Agent():
 
         new_weights = tau * local_weights + (1 - tau) * target_weights
         target_model.set_weights(new_weights)
+
+    def save_model(self):
+        self.actor_local.model.save_weights(self.model_target_dir + 'local_actor_model.h5')
+        self.actor_target.model.save_weights(self.model_target_dir + 'target_actor_model.h5')
+
+        self.critic_local.model.save_weights(self.model_target_dir + 'local_critic_model.h5')
+        self.critic_target.model.save_weights(self.model_target_dir + 'target_critic_model.h5')
