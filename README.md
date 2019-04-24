@@ -1,21 +1,21 @@
 # game-playing-with-RL
 inzva AI Projects #2 - Game Playing with Reinforcement Learning Project
 
-# Project-Description
+#  Project-Description
 
 This repository provides code, exercises and solutions for popular Reinforcement Learning algorithms. 
 
 
-# Project-Aim
+#  Project-Aim
 
 We aim to learn RL algorithms and try to implement that to the RL games.
 
-# Descreate Space
+#  Descreate Space
 1- Cartpole-v0 with VPG                                                                                                  
 2- Pong: The pendulum starts upright, and the goal is to prevent it from falling over.                                         
 3- The Taxi: In this lab, you will train a taxi to pick up and drop off passengers. 
 
-# Continuous Space
+#  Continuous Space
 1- MountainCarContinuous-v0 with Actor Critic/PPO                                                                               
 2- BipedalWalker-v2 with Deep Deterministic Policy Gradients (DDPG)/ Genetic Algorithms.                                        
 
