@@ -17,7 +17,7 @@ Descreate Space
 
 Continuous Space
 •	MountainCarContinuous-v0 with Actor Critic/PPO
-•	BipedalWalker-v2 with Deep Deterministic Policy Gradients (DDPG)/ Genetic Algorithms.
+•	BipedalWalker-v2 with Deep Deterministic Policy Gradients (DDPG)/ Genetic Algorithms. 
 
 
 
