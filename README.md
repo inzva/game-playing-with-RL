@@ -21,6 +21,7 @@ BipedalWalker-v2 with Deep Deterministic Policy Gradients (DDPG)/ Genetic Algori
 
 # RL Algorithms
 ==> Cross-Entropy Method
+
 The cross-entropy (CE) method is a Monte Carlo method for importance sampling and optimization. It is applicable to both combinatorialand continuous problems, with either a static or noisy objective. The method approximates the optimal importance sampling estimator by repeating two phases:
 1--Draw a sample from a probability distribution.
 2--Minimize the cross-entropy between this distribution and a target distribution to produce a better sample in the next iteration. 
