@@ -16,17 +16,17 @@ We aim to learn RL algorithms and try to implement that to the RL games.
 * The Taxi: In this lab, you will train a taxi to pick up and drop off passengers. 
 
 ### Continuous Space
-1- MountainCarContinuous-v0 with Actor Critic/PPO                                                                               
-2- BipedalWalker-v2 with Deep Deterministic Policy Gradients (DDPG)/ Genetic Algorithms.                                        
+* MountainCarContinuous-v0 with Actor Critic/PPO                                                                               
+* BipedalWalker-v2 with Deep Deterministic Policy Gradients (DDPG)/ Genetic Algorithms.                                        
 
 ## RL Algorithms
-==> Cross-Entropy Method
+** Cross-Entropy Method
 
 The cross-entropy (CE) method is a Monte Carlo method for importance sampling and optimization. It is applicable to both combinatorialand continuous problems, with either a static or noisy objective. The method approximates the optimal importance sampling estimator by repeating two phases:
 
-1--Draw a sample from a probability distribution.
+* Draw a sample from a probability distribution.
 
-2--Minimize the cross-entropy between this distribution and a target distribution to produce a better sample in the next iteration. 
+* Minimize the cross-entropy between this distribution and a target distribution to produce a better sample in the next iteration. 
 
 
 
