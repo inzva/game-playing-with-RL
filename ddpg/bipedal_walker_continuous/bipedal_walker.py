@@ -6,13 +6,13 @@ import numpy as np
 
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 
-from bipedal_walker.agent import Agent
+from bipedal_walker_continuous.agent import Agent
 
 
 class BipedalWalker:
 
     def __init__(self, env, state_size, action_size):
-        self.env = env
+        self.env = self.new_env()
         self.state_size = state_size
         self.action_size = action_size
         self.agent = Agent(self.state_size, self.action_size)
@@ -22,6 +22,9 @@ class BipedalWalker:
         gym.logger.set_level(40)  # to surpress warnings
         return gym.make('MountainCarContinuous-v0').unwrapped
     """
+    def new_env(self):
+        gym.logger.set_level(40)  # to surpress warnings
+        return gym.make('BipedalWalker-v2').unwrapped
 
     def preprocess_state(self, state):
         # mapping the state values to [-1,1]
@@ -30,12 +33,13 @@ class BipedalWalker:
         s[1] = ((state[1] + 0.07) / 0.14) * 2 - 1
         return s
 
+    """
     def plot_Q(self):
-        """
+        
         Plots 4 heatmaps that shows the behavior of the
         local critic and target when dealing with the state
         and actions space
-        """
+        
         state_step = 0.1
         action_step = 0.1
         plot_range = np.arange(-1, 1 + state_step, state_step)
@@ -99,8 +103,9 @@ class BipedalWalker:
         plt.subplots_adjust(top=0.92, right=0.95, hspace=0.25, wspace=0.4)
 
         plt.savefig('plots/plots.png')
+    """
 
-    def run_epoch(self, max_steps, render=False, training=True):
+    def run_epoch(self, max_steps, render=True, training=True):
         state = self.env.reset()
         self.agent.reset_episode(state)
         actions_list = []
@@ -159,7 +164,7 @@ class BipedalWalker:
 
         for epoch in range(1, max_epochs+1):
             train_reward, train_done, train_action_mean, train_action_std, train_steps = self.run_epoch(max_steps=max_steps)
-            test_reward, test_done, test_action_mean, test_action_std, test_steps = self.run_epoch(max_steps=max_steps, training=False)
+            test_reward, test_done, test_action_mean, test_action_std, test_steps = self.run_epoch(max_steps=1000, training=False)
 
             train_hist.append([train_reward, train_steps])
             test_hist.append([test_reward, test_steps])
@@ -188,7 +193,9 @@ class BipedalWalker:
                     break
 
         if plot_Q:
-            self.plot_Q()
+            pass
+            # TODO fix plot_Q function
+            #self.plot_Q()
         return train_hist, test_hist, solved
 
     def print_epoch(self, vals, verbose):
@@ -217,7 +224,9 @@ if __name__ == '__main__':
     state_dim = np.shape(observation_space)[0]
 
     Learner = BipedalWalker(env, state_dim, action_dim)
-    _, _, solved = Learner.run_model(max_epochs=20, n_solved=1, plot_Q=True)
+    _, _, solved = Learner.run_model(max_epochs=10000, max_steps=2500, n_solved=1, plot_Q=True)
+
+    env.close()
 
     if solved:
         Learner.agent.save_models()

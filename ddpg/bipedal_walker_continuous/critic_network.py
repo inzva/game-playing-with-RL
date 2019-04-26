@@ -18,7 +18,6 @@ class CriticNetwork:
         self.action_size = action_size
 
         # Initialize any other variables here
-
         self.build_model()
 
     def build_model(self):
@@ -32,7 +31,7 @@ class CriticNetwork:
 
         # Add hidden layer(s) for state pathway
         net = layers.Dense(units=20, activation='relu')(states)
-        net = layers.Add()([net, actions])
+        net = layers.Concatenate()([net, actions])
         net = layers.Dense(units=20, activation='relu')(net)
 
         lin_states = layers.Dense(units=20, activation='relu')(states)
